@@ -1,0 +1,3 @@
+[submodule "FinancialDB"]
+	path = FinancialDB
+	url = https://github.com/0x2f0713/FinancialDB
