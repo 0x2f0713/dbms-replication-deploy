@@ -1,0 +1,46 @@
+version: '2.0'
+services:
+  master:
+   image: mysql/mysql-server:5.7
+   container_name: master
+   restart: always
+   volumes:
+           - ./FinancialDB:/root/FinancialDB
+   environment:
+    - MYSQL_ROOT_PASSWORD=mypass
+   hostname: "master"
+   command: --server-id=1 --log-bin='mysql-bin-1.log' --log-bin-trust-function-creators=ON
+   ports: 
+        - "3308:3306"
+   networks:
+           - mysql-replicanet
+
+  slave-1:
+   image: mysql/mysql-server:5.7
+   restart: always
+   container_name: slave-1
+   environment:
+    - MYSQL_ROOT_PASSWORD=mypass
+   hostname: "slave-1"
+   command: --server-id=2 --log-bin-trust-function-creators=ON
+   ports:
+        - "3309:3306"
+   networks:
+           - mysql-replicanet
+
+
+  slave-2:
+   image: mysql/mysql-server:5.7
+   restart: always
+   container_name: slave-2
+   environment:
+    - MYSQL_ROOT_PASSWORD=mypass
+   hostname: "slave-2"
+   command: --server-id=3 --log-bin-trust-function-creators=ON
+   ports:
+        - "3310:3306"
+   networks:
+           - mysql-replicanet
+
+networks:
+        mysql-replicanet:
